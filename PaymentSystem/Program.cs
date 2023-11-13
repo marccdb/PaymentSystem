@@ -10,7 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPaymentOption, CreditCard>();
-builder.Services.AddScoped<IPaymentOption, Cash>();
 
 var app = builder.Build();
 
