@@ -8,16 +8,26 @@ namespace PaymentSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentController(PaymentService paymentService) : ControllerBase
+    public class PaymentController(PaymentService paymentService, ILogger<PaymentController> logger) : ControllerBase
     {
-
+        private readonly ILogger<PaymentController> _logger = logger;
         private readonly PaymentService _paymentService = paymentService;
 
         [HttpPost]
         public async Task<ActionResult> CreateTransaction(PaymentTransaction newTransaction)
         {
-            await _paymentService.CreateNewPayment(newTransaction);
-            return Created();
+            try
+            {
+                _logger.LogInformation(newTransaction.ToString());
+                await _paymentService.CreateNewPayment(newTransaction);
+                return Created();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
         }
 
 

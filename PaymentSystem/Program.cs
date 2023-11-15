@@ -13,14 +13,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PaymentContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
 
-
+//OpenTelemetry integration with Prometheus
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService(serviceName: builder.Environment.ApplicationName))
     .WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation()
     .AddMeter("Microsoft.AspNetCore.Hosting")
     .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
     .AddPrometheusExporter());
-        
 
 var app = builder.Build();
 
@@ -36,5 +35,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapPrometheusScrapingEndpoint();
 
 app.Run();
