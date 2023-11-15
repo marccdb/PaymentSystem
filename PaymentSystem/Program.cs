@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using PaymentSystem.Infrastructure;
+using PaymentSystem.Infrastructure.Interfaces;
+using PaymentSystem.Services;
+using PaymentSystem.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PaymentContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
+builder.Services.AddScoped<IPaymentPersist, PaymentPersist>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 //OpenTelemetry integration with Prometheus
 builder.Services.AddOpenTelemetry()

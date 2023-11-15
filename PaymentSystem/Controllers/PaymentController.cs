@@ -1,26 +1,27 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PaymentSystem.Models;
-using PaymentSystem.Models.Interfaces;
 using PaymentSystem.Services;
+using PaymentSystem.Services.Interfaces;
 
 namespace PaymentSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentController(PaymentService paymentService, ILogger<PaymentController> logger) : ControllerBase
+    public class PaymentController(ILogger<PaymentController> logger, IPaymentService paymentService) : ControllerBase
     {
         private readonly ILogger<PaymentController> _logger = logger;
-        private readonly PaymentService _paymentService = paymentService;
+        private readonly IPaymentService _paymentService = paymentService;
 
         [HttpPost]
-        public async Task<ActionResult> CreateTransaction(PaymentTransaction newTransaction)
+        public async Task<ActionResult<PaymentTransaction>> CreateTransaction(PaymentTransaction newTransaction)
         {
             try
             {
+                if(newTransaction == null) { return Problem("Please check your data."); }
+
                 _logger.LogInformation(newTransaction.ToString());
                 await _paymentService.CreateNewPayment(newTransaction);
-                return Created();
+                return Created("New payment registered", newTransaction);
 
             }
             catch (Exception e)
