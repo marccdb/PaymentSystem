@@ -11,7 +11,7 @@ using PaymentSystem.Infrastructure;
 
 namespace PaymentSystem.Migrations
 {
-    [DbContext(typeof(PaymentContext))]
+    [DbContext(typeof(PersistContext))]
     [Migration("20231115194832_Initial")]
     partial class Initial
     {

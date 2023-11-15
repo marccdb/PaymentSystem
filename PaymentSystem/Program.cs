@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<PaymentContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
+builder.Services.AddDbContext<PersistContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
 builder.Services.AddScoped<IPaymentPersist, PaymentPersist>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 

@@ -3,10 +3,10 @@ using PaymentSystem.Models;
 
 namespace PaymentSystem.Infrastructure
 {
-    public class PaymentPersist(PaymentContext context) : IPaymentPersist
+    public class PaymentPersist(PersistContext context) : IPaymentPersist
     {
 
-        private readonly PaymentContext _context = context;
+        private readonly PersistContext _context = context;
 
         public async Task RegisterPayment(PaymentTransaction newTransaction)
         {

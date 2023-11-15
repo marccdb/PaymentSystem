@@ -10,7 +10,7 @@ using PaymentSystem.Infrastructure;
 
 namespace PaymentSystem.Migrations
 {
-    [DbContext(typeof(PaymentContext))]
+    [DbContext(typeof(PersistContext))]
     partial class PaymentContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
