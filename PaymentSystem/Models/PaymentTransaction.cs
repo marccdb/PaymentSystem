@@ -2,18 +2,15 @@
 
 namespace PaymentSystem.Models
 {
-    public class PaymentTransaction(string description, int orderNumber, PaymentType paymentType, double amount)
+    public class PaymentTransaction(int customerId, string description, int orderNumber, PaymentType paymentType, double amount)
     {
-        public int Id { get; }
-        public int OrderNumber { get; } = orderNumber;
-        public string Description { get; } = description;
-        public PaymentType PaymentType { get; } = paymentType;
-        public double Amount { get; } = amount;
-        public CreditCard? CreditCardId { get; }
-
-
-
-        public DateTime TransactionTime { get; } = DateTime.UtcNow;
+        public int Id { get; init; }
+        public int CustomerId { get; init; } = customerId;
+        public int OrderNumber { get; init; } = orderNumber;
+        public string Description { get; init; } = description;
+        public PaymentType PaymentType { get; init; } = paymentType;
+        public double Amount { get; init; } = amount;
+        public DateTime TransactionTime { get; init; } = DateTime.UtcNow;
        
     }
 }

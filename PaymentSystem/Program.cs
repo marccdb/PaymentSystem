@@ -1,5 +1,7 @@
-using PaymentSystem.Models;
-using PaymentSystem.Models.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using PaymentSystem.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IPaymentOption, CreditCard>();
+builder.Services.AddDbContext<PaymentContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
+
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService(serviceName: builder.Environment.ApplicationName))
+    .WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation()
+    .AddMeter("Microsoft.AspNetCore.Hosting")
+    .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
+    .AddPrometheusExporter());
+        
 
 var app = builder.Build();
 
