@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PaymentSystem.Models;
 using PaymentSystem.Models.Interfaces;
 using PaymentSystem.Services;
 
@@ -13,9 +14,9 @@ namespace PaymentSystem.Controllers
         private readonly PaymentService _paymentService = paymentService;
 
         [HttpPost]
-        public ActionResult CreateTransaction(IPaymentOption paymentOption)
+        public async Task<ActionResult> CreateTransaction(PaymentTransaction newTransaction)
         {
-            _paymentService.MakePayment(paymentOption);
+            await _paymentService.CreateNewPayment(newTransaction);
             return Created();
         }
 

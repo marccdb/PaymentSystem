@@ -1,12 +1,16 @@
-﻿using PaymentSystem.Models.Interfaces;
+﻿using PaymentSystem.Infrastructure;
+using PaymentSystem.Models;
+using PaymentSystem.Models.Interfaces;
 
 namespace PaymentSystem.Services
 {
-    public class PaymentService
+    public class PaymentService(PaymentPersist persist)
     {
-        public void MakePayment(IPaymentOption paymentOption)
+        private readonly PaymentPersist _persist = persist;
+
+        public async Task CreateNewPayment(PaymentTransaction newTransaction)
         {
-            throw new NotImplementedException();
+           await _persist.RegisterPayment(newTransaction);
         }
 
 
