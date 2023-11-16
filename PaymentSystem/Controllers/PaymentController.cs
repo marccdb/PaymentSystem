@@ -20,6 +20,7 @@ namespace PaymentSystem.Controllers
 
                 _logger.LogInformation(newTransaction.ToString());
                 await _paymentService.CreateNewPayment(newTransaction);
+                _logger.LogInformation(message: "New payment transaction", newTransaction.Description);
                 return Created("New payment registered", newTransaction);
 
             }
